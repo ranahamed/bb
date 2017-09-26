@@ -2,27 +2,27 @@ class BooksController < ApplicationController
 
   before_action :logged_in_admin, only: [:edit, :update, :new, :add, :destroy]
   def home
-    @books=Book.all
+    @books=Book.all.order("created_at DESC")
   end
 
   def show
-  	@book=Book.find(params[:id])
+    @book=Book.find(params[:id])
   end
 
   def new
-  	@book=Book.new
-  	@book.authors.build
+    @book=Book.new
+    @book.authors.build
   end
 
   def create
-  	@book=Book.new(book_params)
-  	if @book.save
+    @book=Book.new(book_params)
+    if @book.save
       flash[:success]="new book is added"
-  		redirect_to @book
+      redirect_to @book
 
-  	else
-  		render 'new'
-  	end
+    else
+      render 'new'
+    end
   end
 
   def edit
@@ -47,10 +47,22 @@ class BooksController < ApplicationController
   end
 
   def search
+    if @books.nil?
+      @books =[]
+    end
   end
 
-  def find
-    
+
+  def index
+  if !params[:search].empty?
+    @books = Book.searchpublisher(params[:search]).order("created_at DESC")
+    @books+=Book.searchtitle(params[:search]).order("created_at DESC")
+    @books+=Book.searchauthor(params[:search]).order("created_at DESC")
+    @books=@books.uniq
+   
+  else
+    @books = []
+  end
   end
 
 

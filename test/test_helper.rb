@@ -10,8 +10,8 @@ class ActiveSupport::TestCase
   end
 
   def is_log_in 
-  	get login_path
-  	post login_path, params: {session:{username: "root",password: "root"}}
+  	get  login_path
+  	post login_path, params: {session:{username: ENV['USERNAME'],password: ENV['PASSWORD']}}
 	session[:login]=true
   end
 

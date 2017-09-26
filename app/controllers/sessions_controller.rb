@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 	end
 
 	def create
-		if params[:session][:username]== "root" && params[:session][:password]=="root"
+		if params[:session][:username]== ENV['USERNAME'] && params[:session][:password]== ENV['PASSWORD'] 
 			log_in
 			redirect_to root_path
 		else

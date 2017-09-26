@@ -8,4 +8,17 @@ class Book < ApplicationRecord
 	validates :isbn ,presence: true,length: {maximum: 20},uniqueness: { case_sensitive: false }
 	validates :publishing_date, presence: true,format: {with: valid_date_regex}
 
+	def self.searchpublisher(search)
+     where("publisher LIKE ?", "%#{search}%") 
+   end
+
+   def self.searchtitle(search)
+     where("title LIKE ?", "%#{search}%") 
+   end
+  def self.searchauthor(search)
+  	Book.joins(:authors)
+          .where("authors.name LIKE ?", "%#{search}%")
+         
+   end
+
 end

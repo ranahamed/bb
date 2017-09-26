@@ -19,4 +19,12 @@ class BooksControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "New | Book online store"
   end
 
+ 
+  test "should get search" do
+    get search_path
+    assert_response :success
+    assert_select "title", "search | Book online store"
+  end
+
+
 end
